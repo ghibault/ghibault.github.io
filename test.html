@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery with Fixed Sidebar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Use flex to control the layout */
+        }
+
+        /* Fixed left sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px; /* Default width */
+            height: 100vh;
+            color: white;
+            display: none; /* Hide the sidebar by default */
+            flex-direction: column; /* Align content vertically */
+            justify-content: flex-start; /* Align items from top */
+            align-items: center; /* Center the image horizontally */
+            transition: width 0.3s ease; /* Smooth transition for resizing */
+        }
+
+        .sidebar img {
+            width: 100%; /* Image width should match sidebar width */
+            max-width: 60%; /* Max width as a percentage of sidebar's width */
+            #max-height: 200px; /* Maximum height for the image */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: cover;
+            margin-left: auto;
+            margin-top: 20px; /* Add some space from the top */
+            transition: width 0.3s ease; /* Smooth transition for image resizing */
+        }
+
+        /* Main content area */
+        .main-content {
+            width: 100%;
+            padding: 20px;
+            padding-right: 20px; /* Default right padding on mobile */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Default grid, flexible columns */
+            gap: 10px; /* Small gap between rows and columns */
+            transition: margin-left 0.3s ease, padding-right 0.3s ease; /* Smooth transition */
+        }
+
+        .main-content.sidebar-visible {
+            padding-right: 80px; /* Padding when sidebar is visible */
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* This creates a square container based on the width */
+            overflow: hidden;
+        }
+        .image-container img:hover {
+            opacity: 0.6; /* Adjust the value to control transparency (0.0 to 1.0) */
+            transition: opacity 0.3s ease; /* Smooth transition for the hover effect */
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image fills the square container */
+        }
+
+        /* Media query to show the sidebar only on tablets and larger */
+        @media (min-width: 600px) {
+            .sidebar {
+                display: flex; /* Show sidebar on tablets and larger */
+            }
+
+            .main-content {
+                margin-left: 220px; /* Space for the sidebar */
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexible columns with a minimum of 250px */
+            }
+        }
+
+        /* Media query to increase the sidebar width on larger screens */
+        @media (min-width: 1200px) {
+            .sidebar {
+                width: 300px; /* Increase sidebar width on larger screens */
+            }
+
+            .main-content {
+                margin-left: 320px; /* Adjust main content to accommodate the wider sidebar */
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible columns, with at least 200px each */
+            }
+        }
+
+        /* Media query to force a minimum of 2 columns on small screens */
+        @media (max-width: 600px) {
+            .main-content {
+                grid-template-columns: repeat(2, 1fr); /* Minimum 2 columns */
+                margin-left: 0; /* Remove left margin when sidebar is hidden */
+            }
+        }
+
+        /* Media query for tablets to force a minimum of 3 columns */
+        @media (min-width: 600px) and (max-width: 1199px) {
+            .main-content {
+                grid-template-columns: repeat(3, 1fr); /* Minimum 3 columns */
+            }
+        }
+
+        /* Media query for desktops to force a minimum of 4 columns */
+        @media (min-width: 1200px) {
+            .main-content {
+                grid-template-columns: repeat(4, 1fr); /* Minimum 4 columns */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="https://lh3.googleusercontent.com/d/1S8dkHapG5MBdxyQmgd-NopUXcOReglRv" alt="Fixed Sidebar Image">
+    </div>
+
+    <div class="main-content">
+        <div class="image-container">
+            <a href="https://www.ghibault.com/books">
+                <img src="https://64.media.tumblr.com/db02a8fccd09136d0f2c64cff09078b8/833b1ce1fe6902a1-33/s1280x1920/733bb14ec2db6fa22769aeaaf640817ffe6d01b5.jpg" alt="Image 1">
+            </a>
+        </div>        
+        <div class="image-container"><img src="https://64.media.tumblr.com/568f3be781acd52803367a2a43de9594/c660b59999c6f2c3-bf/s1280x1920/2e1f7d60a01269bfd2139eb69a02877e418d637d.jpg" alt="Image 2"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 3"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 4"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 5"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 6"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 1"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 2"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 3"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 4"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 5"></div>
+        <div class="image-container"><img src="https://via.placeholder.com/200" alt="Image 6"></div>
+    </div>
+
+    <script>
+        // JavaScript to toggle the sidebar-visible class
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+
+        // Function to toggle sidebar visibility
+        function toggleSidebar() {
+            if (window.innerWidth >= 600) {
+                sidebar.style.display = 'flex'; // Show sidebar on larger screens
+                mainContent.classList.add('sidebar-visible'); // Add padding-right to main content
+            } else {
+                sidebar.style.display = 'none'; // Hide sidebar on smaller screens
+                mainContent.classList.remove('sidebar-visible'); // Remove padding-right
+            }
+        }
+
+        // Call the function initially
+        toggleSidebar();
+
+        // Call the function when window is resized
+        window.addEventListener('resize', toggleSidebar);
+    </script>
+
+</body>
+</html>
